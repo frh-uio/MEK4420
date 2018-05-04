@@ -6,7 +6,7 @@ clc;
 D=1;
 L=2;
 Nside=10;
-Nbott=10;
+Nbott=20;
 N=Nside+Nbott+Nside;
 dy=D/Nside;
 dx=L/Nbott;

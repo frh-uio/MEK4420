@@ -1,29 +1,29 @@
 clear;
 clc;
 
-K=1.2;
+K=0.9;
 
 % characteristics of geometry
-% load -ascii box1.dat
+load -ascii box1.dat
 % load -ascii box2.dat
-load -ascii box3.dat
+% load -ascii box3.dat
 
-% xm=box1(:,1);
-% ym=box1(:,2);
-% xp=box1(:,3);
-% yp=box1(:,4);
+xm=box1(:,1);
+ym=box1(:,2);
+xp=box1(:,3);
+yp=box1(:,4);
 
 % xm=box2(:,1);
 % ym=box2(:,2);
 % xp=box2(:,3);
 % yp=box2(:,4);
 
-xm=box3(:,1);
-ym=box3(:,2);
-xp=box3(:,3);
-yp=box3(:,4);
+% xm=box3(:,1);
+% ym=box3(:,2);
+% xp=box3(:,3);
+% yp=box3(:,4);
 
-N=30;
+N=40;
 in=linspace(1,N,N);
 
 dx=xp-xm;
@@ -97,13 +97,13 @@ legend({'Re\{\phi_2\}','Im\{\phi_2\}'})
 set(gca,'FontSize',14)
 
 % calculation of added mass a22 and damping b22
-ff22=phi2.*n2.*ds;
-sff22=sum(ff22);
-
-phi0=exp(K*(by-complex(0,1)*bx));
-
-AM2=complex(0,1)*(phi2.*(K*n2-K*complex(0,1)*n1)-n2).*phi0.*ds;
-AP2=complex(0,1)*(phi2.*(K*n2+K*complex(0,1)*n1)-n2).*conj(phi0).*ds;
-
-sAM2=sum(AM2);
-sAP2=sum(AP2);
+% ff22=phi2.*n2.*ds;
+% sff22=sum(ff22);
+% 
+% phi0=exp(K*(by-complex(0,1)*bx));
+% 
+% AM2=complex(0,1)*(phi2.*(K*n2-K*complex(0,1)*n1)-n2).*phi0.*ds;
+% AP2=complex(0,1)*(phi2.*(K*n2+K*complex(0,1)*n1)-n2).*conj(phi0).*ds;
+% 
+% sAM2=sum(AM2);
+% sAP2=sum(AP2);

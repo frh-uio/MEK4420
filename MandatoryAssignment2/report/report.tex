@@ -8,7 +8,8 @@
 \usepackage[pdftex]{graphicx}
 \usepackage{textcomp}
 \usepackage{float}
-\usepackage{hyperref}
+\usepackage[unicode]{hyperref}
+
 \usepackage[top=0.6in, bottom=0.8in, left=0.9in, right=0.7in]{geometry}
 \usepackage{listings}
 \usepackage{color}
@@ -20,13 +21,14 @@
 \usepackage{graphicx,wrapfig,lipsum}
 \usepackage{blindtext}
 
-\makeatletter\chardef\pdf@shellescape=\@ne\makeatother
-\usepackage{auto-pst-pdf}
+%\makeatletter\chardef\pdf@shellescape=\@ne\makeatother
+%\usepackage{auto-pst-pdf}
 
-%\graphicspath{ {Circle/}{Ellipse/}{Square/}}
 \newcommand{\dd}{\partial}
 \newcommand{\xbar}{\overline{x}}
 \newcommand{\ybar}{\overline{y}}
+
+\graphicspath{{Pictures/}}
 
 \begin{document}
 
@@ -275,20 +277,20 @@ where $\overline{\varphi_0} = conj({\varphi_0}) = e^{K y + i K x}$ and we have u
 \subsection{Added mass and damping}
 We can now find the force associated with the heave mode of motion by using the following expression:
 \begin{equation}
-F_2 (t) = - \dot{U}_2 a_{22} - U_2 b_{22} =  Re\{- i\omega^2\} \xi_2 f_{22} e^{i \omega t}
+F_2 (t) = - \dot{U}_2 a_{22} - U_2 b_{22} =  Re\{- i\omega^2\ \xi_2 f_{22} e^{i \omega t} \}
 \end{equation}
 
 where $f_{22}$ is the force coefficient analogous to the added mass coefficients, but which is complex as a result of the free surface and the real and imaginary parts depend on the frequency $\omega$, So the force coefficient $f_{22}$ takes the form:
 
 \begin{align}
-&f_{22} = a_{22} + \frac{b_{22}}{i \omega} = \rho \int_{S_B} \phi_2 n_2 dS= \omega^2 a_{22} - i \omega b_{22}\\[1 em]
+&f_{22} = a_{22} + \frac{b_{22}}{i \omega} = \rho \int_{S_B} \phi_2 n_2 dS\\[1 em]
 &\frac{f_{22}}{\rho \omega^2 D^2} = \frac{a_{22}}{D^2 \rho} - i \frac{b_{22}}{\omega \rho D^2}\\[1 em]
 \Rightarrow \quad &\frac{a_{22}}{\rho D^2} = Re\{f_{22}\} \quad , \quad \frac{b_{22}}{\rho \omega D^2} = -Im\{f_{22}\}
 \end{align}
 
 By using the numerical solution of $\phi_2$ along the wetted body surface $S_B$, we can calculate the added mass $a_{22}$ and damping $b_{22}$ for the wavenumber range $0 < KD=\frac{\omega^2 D}{g} < 2$ for the three geometries:
 
-\begin{figure}[!htb]
+\begin{figure}[H]
 \minipage{0.33\textwidth}
   \includegraphics[width=\linewidth]{ad_mass_box1.png}
   \caption{$a_{22}$ and $b_{22}$ of the\\ rectangular geometry where\\ $\frac{L}{D}=2$}\label{add_mass_box1}
@@ -325,7 +327,7 @@ Substituting these in (\ref{work}) gives:
 &= \frac{1}{2} \Big( \big\vert A_2^{+ \infty} \big\vert^2 + \big\vert A_2^{- \infty} \big\vert^2 \Big) \label{b22_2}
 \end{align}
 
-We can also calculate $b_{22}$ using the expression in (\ref{b22_2}). We can see a visualization of these results together with the results by using the Froude-Krylov approximation in figures (\ref{add_mass_box1_2})-(\ref{add_mass_box1_3}) .
+As shown above we can calculate $b_{22}$ using the energy method, also by the expression in (\ref{b22_2}). We can see a visualization of these results together with the results obtained by direct calculation and also by using the Froude-Krylov approximation in figures (\ref{add_mass_box1_2})-(\ref{add_mass_box3_2}) .
 
 
 \subsection{Comparison of the approximate solution to the full calculation of the damping force $b_{22}$}
@@ -345,7 +347,7 @@ For a narrow geometry which has a small length compared to the wave-length, wher
 In this representation for the exciting force, we assume that the pressure field is not affected by the presence of the body, and the exciting force can be determined from the incident wave potential by itself. Once we have the exciting force $X_2$, we can use it to find the damping force.
 
 \begin{equation}
-b_{22} = \frac{\vert X_2 \vert^2}{2 \rho g c_g} = \frac{\big\vert \rho^2 g^2 L^2 e^{-2 KD} \big\vert^2}{\rho g^2 / \omega} = \omega \rho L^2 e^{-2 KD}
+b_{22} = \frac{\vert X_2 \vert^2}{2 \rho g c_g} = \frac{\big\vert \rho g L e^{-KD} \big\vert^2}{\rho g^2 / \omega} = \omega \rho L^2 e^{-2 KD}
 \end{equation}
 where we have used that $c_g = \frac{g}{2 \omega}$.\\[1 em]
 
@@ -364,8 +366,8 @@ where we have used that $c_g = \frac{g}{2 \omega}$.\\[1 em]
 \endminipage
 \end{figure}
 
-In the figures above, we compare the dampings coefficients $b_{22}$ that we obtain using three different methods for the three rectangular geometries. The red grapth is the results obtained by using the numerical solution of $\phi_2$, while the black graph shows $b_{22}$ obtained from the energy balance and the green graph shows the damping obtained by using the Froude-Krylov approximation.\\
-As we can see all graphs have the same shape, and they all start at $L^2$ for $K=0$, and they all go towards zero as $k \rightarrow 2$.
+In the figures above, we compare the damping-coefficients $b_{22}$ that we obtain using three different methods for the three rectangular geometries. The red grapth is the results obtained by using the numerical solution of $\phi_2$, while the black graph shows $b_{22}$ obtained from the energy balance and the green graph shows the damping obtained by using the Froude-Krylov approximation.\\
+As we can see the results from direct integration and using energy balance are exactly the same, while Froude-Krylov give a bit higher values, but is still a good approximation that gets more accurate az the box gets thinner. All graphs start at $L^2$ for $K=0$, and they all go towards zero as $k \rightarrow 2$.
 
 
 \section{The diffraction problem}
@@ -452,7 +454,7 @@ By using condition (48) we get:
 Where we have expressed the integral at the geometry by a integral of the control surfaces at $x = \pm \infty$.\\[1 em]
 
 The far field of $\phi_2$ is given by
-\begin{equation} \label{int.eq.}
+\begin{equation} \label{int.eq.far}
 	\phi_2 = \begin{cases}
 		i \omega A_2^\infty e^{Ky - iKx}, & x \rightarrow \infty.\\
 		i \omega A_2^{-\infty} e^{Ky + iKx}, & x \rightarrow -\infty.
@@ -478,12 +480,12 @@ we can calculate the exciting force using several other methods, here we will ex
 & = - \frac{i g}{\omega} \int_{S_B} (\varphi_0 n_2 - \phi_2 \frac{\dd \varphi_0}{\dd n}) dS\\
 & \Rightarrow \frac{|X_2^{HK1}|}{\rho g} = \int_{S_B} (\varphi_0 n_2 - \phi_2 (K(n_2 - in_1)\varphi_0) ) dS\\[2 em]
 &\text{3. Second version of the Haskind relation:}\nonumber\\
-&\frac{| X_2^{HK2}|}{\rho g} = A_2^{-\infty}\\[2 em]
+&\frac{| X_2^{HK2}|}{\rho g} = i A_2^{-\infty}\\[2 em]
 &\text{4. Froude-Krylov approximation:}\nonumber\\
-&\frac{|X_2|}{\rho g} = \rho g L e^{-KD} \frac{sin(KL/2)}{KL/2}
+&\frac{|X_2|}{\rho g} = L e^{-KD} \frac{sin(KL/2)}{KL/2}
 \end{alignat}
 
-The following plots show all four variants for computation of the exciting force as a function of the wavenumber for the three rectangular geometries.
+The following plots show all four variants for computation of the exciting force as a function of the wavenumber for the three rectangular geometries. As we can see $X_2^{Direct} = X_2^{HK \hspace{1mm} 1, 2}$ and Froude-Krylov method also gives a very good approximation of the exciting force. This means that we can use the Froude-Krylov approximations and also both versions of the Haskind relations to verificate the results we get by direct calculation of the exciting force $X_2$.
 
 \begin{figure}[H]
 \minipage{0.33\textwidth}
@@ -526,6 +528,7 @@ For the heave mode of motion (j=2), we get:
 
 where $M_{22} = m = \rho \forall$, for a freely floating body and denotes the mass of the geometry which in the case of the freely floating body equals the buoyancy force. $c_{22} = \rho g S$ where $S$ is the water plane area of the geometry that corresponds to the width $L$ of the geometry at the free surface.
 
+
 \subsection{Resonance frequency}
 
 We get resonance response at the natural frequency where the virtual mass or the inertia forces balances the hydrostatic restoring forces.At or near this frequency, the body will experience a response of large amplitude and a phase shift.\\
@@ -536,34 +539,54 @@ We get resonance response at the natural frequency where the virtual mass or the
 \end{align}
 
 For a rectangular geometry where $L=2D$ and $D=1$, we get the following resonance frequency:
-$$\omega_n^2 = \frac{g}{D}\hspace{1mm}\frac{1}{1 + \frac{a_{22}}{2 \rho D^2}} $$
+$$\omega_n^2 \frac{D}{g} = \frac{1}{1 + \frac{a_{22}}{2 \rho D^2}} $$
 
 For a geometry where $L=1$ and $D=1$, the resonance frequency is:
-$$\omega_n^2 = \frac{g}{D}\hspace{1mm}\frac{1}{1 + \frac{a_{22}}{ \rho D^2}} $$
+$$\omega_n^2 \frac{D}{g} = \frac{1}{1 + \frac{a_{22}}{ \rho D^2}} $$
 
 For the last geometry where $L=0.1$ and $D=1$, we get:
-$$ \omega_n^2 = \frac{g}{D}\hspace{1mm}\frac{1}{1 + \frac{a_{22}}{ 0.1 \rho D^2}} $$
+$$ \omega_n^2 \frac{D}{g} = \frac{1}{1 + \frac{a_{22}}{ 0.1 \rho D^2}} $$
 
+We can see from figures (\ref{add_mass_box1}) to (\ref{add_mass_box3}) that the added mass $a_{22}$ does not vary much between $\omega_n^2 \frac{D}{g} = 0.5$ to $1.5$. Also the scaled added masses $\frac{a_{22}}{\rho D^2}$, in this interval are approximately $1.9$, $0.5$ and $0.008$ for boxes with $\frac{L}{D} = 2$, $1$ and $0.1$ respectively. Substituting for these values give us:
+$$\frac{L}{D}=2 \quad \Rightarrow \quad \frac{\omega_n^2 D}{g} = 0.51 \quad , \quad 
+\frac{L}{D}=1 \quad \Rightarrow \quad \frac{\omega_n^2 D}{g} = 0.67 \quad , \quad 
+\frac{L}{D}=0.1 \quad \Rightarrow \quad \frac{\omega_n^2 D}{g} = 0.93 $$
 
 \subsection{Response as a function of frequency}
 
 Following figures show plots for the response amplitude operator $\frac{\xi_2}{A}$ in heave on the three rectangular geometries.
 
 \begin{figure}[H]
-\minipage{0.33\textwidth}
-  \includegraphics[width=\linewidth]{respons1.png}
-  \caption{}\label{X2_2_box1}
-\endminipage
-\minipage{0.33\textwidth}
-  \includegraphics[width=\linewidth]{respons2.png}
-  \caption{}\label{X2_2_box2}
-\endminipage
-\minipage{0.33\textwidth}%
-  \includegraphics[width=\linewidth]{respons.png}
-  \caption{}\label{res_box3}
-\endminipage
+ \centering
+ 
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=8cm, height=6cm]{respons1.png} 
+\caption{}
+\label{respons1}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\includegraphics[width=8cm, height=6cm]{respons2.png}
+\caption{}
+\label{respons2}
+\end{subfigure}
+
+\begin{subfigure}{0.6\textwidth}
+\centering
+\includegraphics[width=12cm, height=6cm]{respons.png}
+\caption{}
+\label{respons3}
+\end{subfigure}
+
+\caption{}
+\label{heave_response}
 \end{figure}
 
+As we can see from figure: (\ref{heave_response}), we need the $a_{22}$ to be able to calculate the heave response $\frac{\xi_2}{A}$ correctly.\\[1em]
+
+for a thin box where $\frac{L}{D}=0.1$, at resonance where $\frac{\omega^2 D}{g} = KD \approx 1$ we will get the following response, using the Froude-Krylov approximation:\\
+$$\frac{\vert \xi_2^{FK} \vert}{A} = \frac{e^{-KD}}{\vert i L e^{-2KD} \vert} = \frac{2.71}{0.1} = 27.18$$
+Which is also shown in figure:(\ref{respons3}).
+\newpage
 \section{Conclusion}
 \begin{enumerate}
 \item In the radiation problem, where there are no incoming waves, the wave motion is driven by the oscillatory motion of the geometry. The radiation potentials satisfy the Laplace equation and also the same boundary conditions as the Green function at the free surface and at infinity.\\
@@ -573,21 +596,22 @@ The outgoing waves are evaluated by using the far field form of the Green functi
 
 \item We can evaluate the far field wave amplitudes, as well as the force and moments such as the added mass and damping, once we have found a solution for the potential.
 
-\item Calculating the damping directly from the potential, as well as using the mean energy flux or energy balance, gives a more accurate evaluation of the damping. Froude-Krylov approximation gives a bit higher values, but still a pretty good approximation. The dampings coefficient starts at $L^2$ at $k=0$ and goes towards zero as $k \rightarrow 2$. Several methods to evaluate a quantity is quite useful for checking the validity of the results.
+\item Calculating the damping directly from the potential, gives the same result as using the mean energy flux or energy balance and thus we can use these methods for the purpose of verification of the results. Froude-Krylov approximation gives a bit higher values for bigger boxes, but is still a pretty good approximation, while the calculations give the exact value for a thin box where $\frac{L}{D}=0.1$. The dampings coefficient starts at $L^2$ at $k=0$ and goes towards zero as $k \rightarrow 2$. Several methods to evaluate a quantity is quite useful for checking the validity of the results.
 
 \item The Laplacian scattering potential in the diffraction problem which results from the interaction of the incoming wave field with the geometry, which is held fixed, satisfies the same conditions at the free surface and at infinity as the Green function. This potential is found by solving the diffraction problem where the incoming wave potential in known.
 
-\item The exciting force on the geometry can be obtained by several methods, such as the direct integration of the diffraction potential, using Haskind relation and also by Froude-Krylov approximation.
+\item The exciting force on the geometry can be obtained by several methods, such as the direct integration of the diffraction potential, using Haskind relation and also by Froude-Krylov approximation. We found out that $X_2^{\text{Direct}} = X_2^{\text{HK 1,2}}$, so they give a check for the results.
+
+\item We need the added mass $a_{22}$ to be able to calculate $\frac{\xi_2}{A}$ correctly, particularly at the resonance frequency.
+
 \end{enumerate}
 
 \newpage
 \section{Numerical implementation}
 All MATLAB scripts used to obtain the numerical results throughout this report is presented in this section.
+
 \subsection{Geometry discretization}
 \begin{verbatim}
-clear;
-clc;
-
 % box of draught D and length (width) L, with D as unit length
 % left vertical side
 D=1;
@@ -647,9 +671,6 @@ ylabel(['Draught D = ' num2str(D)], 'FontSize',20) % y-axis label
 
 \subsection{Integral equation discretization}
 \begin{verbatim}
-clear;
-clc;
-
 nu=1.2;
 
 % characteristics of geometry
@@ -751,9 +772,6 @@ set(gca,'FontSize',14)
 
 \subsection{Heave problem}
 \begin{verbatim}
-clear;
-clc;
-
 K=1.2;
 
 % characteristics of geometry
@@ -852,9 +870,6 @@ set(gca,'FontSize',14)
 
 \subsection{Calculation of added mass and damping}
 \begin{verbatim}
-clear;
-clc;
-
 K=1.2;
 
 % characteristics of geometry
@@ -953,9 +968,6 @@ set(gca,'FontSize',14)
 
 \subsection{Diffraction problem}
 \begin{verbatim}
-clear;
-clc;
-
 %K=1.2;
 
 % characteristics of geometry
@@ -1039,10 +1051,8 @@ ylabel('|X_2| / \rho g', 'FontSize', 22)
 set(gca,'FontSize',14)
 \end{verbatim}
 
-\subsection{Exciting force}
+\subsection{Exciting force and body response as a function of frequency }
 \begin{verbatim}
-clear;
-clc;
 % characteristics of geometry
 
 load -ascii box1.dat
@@ -1053,7 +1063,7 @@ xm=box1(:,1);
 ym=box1(:,2);
 xp=box1(:,3);
 yp=box1(:,4);
-
+ 
 % xm=box2(:,1);
 % ym=box2(:,2);
 % xp=box2(:,3);
@@ -1068,163 +1078,8 @@ L = 2;
 D = 1;
 
 
-N=30;
-M=60;
-in=linspace(1,N,N);
-K=linspace(0.01,2,M);
-
-dx=xp-xm;
-dy=yp-ym;
-ds=((dx).^2+(dy).^2).^(1/2);
-
-% Midpoints
-xbar=0.5*(xm+xp);
-ybar=0.5*(ym+yp);
-
-n1=-(dy)./ds;
-n2=(dx)./ds;
-
-% points for Gauss integration on each segment
-xg1=-0.5*dx/sqrt(3)+xbar;
-xg2=0.5*dx/sqrt(3)+xbar;
-yg1=-0.5*dy/sqrt(3)+ybar;
-yg2=0.5*dy/sqrt(3)+ybar;
-
-X2_direct = 0;
-X2_FK = 0;
-X2_HK1 = 0;
-X2_HK2 = 0;
-
-% sAM2 = 0;
-% sAP2 = 0;
-
-% contributions to integral equation, rhs stores rhs, lhs stores lhs
-for k=1:M
-    for i=1:N
-        for j=1:N
-            % rhs, log(r) term with 2pts Gauss quadrature
-            xa1=xg1(j)-xbar(i);
-            xa2=xg2(j)-xbar(i);
-            ya1=yg1(j)-ybar(i);
-            ya2=yg2(j)-ybar(i);
-
-            ra1=sqrt(xa1*xa1+ya1*ya1);
-            ra2=sqrt(xa2*xa2+ya2*ya2);
-
-            g0=(log(ra1)+log(ra2))*0.5;
-
-            % all other terms with midpoint rule
-            xa=xbar(j)-xbar(i);
-            yb=ybar(j)+ybar(i);
-            rb=sqrt(xa*xa+yb*yb);
-            g1=-log(rb);
-            zz=K(k)*(yb-complex(0,1)*xa);
-            f1=-2*exp(zz)*(expint(zz)+log(zz)-log(-zz));
-            f2=2*pi*exp(zz);
-            g2=real(f1)+complex(0,1)*real(f2);
-            gg(i,j)=(g0+g1+g2)*ds(j);
-
-            % lhs
-            arg0=imag(log((xm(j)-xbar(i)+complex(0,1)*(ym(j)-ybar(i)))/...
-                (xp(j)-xbar(i)+complex(0,1)*(yp(j)-ybar(i)))));
-
-            if j-i == 0
-                arg0=-pi;
-            end
-
-            arg1=imag(log((xm(j)-xbar(i)+complex(0,1)*(ym(j)+ybar(i)))...
-                /(xp(j)-xbar(i)+complex(0,1)*(yp(j)+ybar(i)))));
-
-            arg2=(n1(j)*(imag(f1)+complex(0,1)*imag(f2))+n2(j)...
-                *(real(f1)+complex(0,1)*real(f2)) )*K(k)*ds(j);
-
-            ss(i,j)=(arg0+arg1+arg2);
-        end
-    end
-    phi0=exp(K(k)*(ybar-complex(0,1)*xbar));
-    rhs=gg*n2;
-    phi2=ss\rhs;
-    
-    rhsD=-2*pi*phi0;
-    phiD=ss\rhsD;
-    
-    % calculation of added mass a22 and damping b22
-    X22_direct=phiD.*n2.*ds;
-    X2_direct=[X2_direct,abs(sum(X22_direct))];
-   
-
-    AM2=complex(0,1)*(phi2.*(K(k)*n2-K(k)*complex(0,1)*n1)-n2).*phi0.*ds;
-    %AP2=complex(0,1)*(phi2.*(K(k)*n2+K(k)*complex(0,1)*n1)-n2).*conj(phi0).*ds;
-   
-    %sAM2=[sAM2,sum(AM2)];
-   
-    %sAP2=[sAP2,sum(AP2)];
-    
-    % approximate solution using Froude-Krylov approximation
-    X22_FK = (L*exp(-K(k)*D))*sin(K(k)*L/2.0)/(K(k)*L/2.0);
-    X2_FK = [X2_FK, abs(sum(X22_FK))];
-    
-    term1 = (n2 - K(k)*phi2.*n2);
-    term2 = (phi0.*n1*K(k)*complex(0,1));
-    terms = term1 + term2;
-    X22_HK1 = (phi0.*terms).*ds;
-    X2_HK1 = [X2_HK1, abs(sum(X22_HK1))];
-    
-    X22_HK2 = AM2;
-    X2_HK2 = [X2_HK2, abs(sum(X22_HK2))];
-end
-X2_direct = X2_direct(2:end);
-X2_FK = X2_FK(2:end);
-X2_HK1 = X2_HK1(2:end);
-X2_HK2 = X2_HK2(2:end);
-
-figure()
-plot(K, X2_direct, 'b -', 'LineWidth', 2)
-hold on
-plot(K, X2_FK, 'r -', 'LineWidth', 2)
-hold on
-plot(K, X2_HK1, 'k -', 'LineWidth', 2)
-hold on
-plot(K, X2_HK2, 'g -', 'LineWidth', 2)
-
-title('Exciting force vs wavenumber K', 'FontSize', 16)
-xlabel('\omega^2 D / g', 'FontSize', 20) % x-axis label
-ylabel('|X_2| / \rho g', 'FontSize', 20) % x-axis label
-legend('X_2^{Direct}','X_2^{FK}','X_2^{HK1}','X_2^{HK2}')
-set(gca,'FontSize',14)
-\end{verbatim}
-
-\subsection{Response as function of frequency}
-\begin{verbatim}
-clear;
-clc;
-% characteristics of geometry
-
-% load -ascii box1.dat
-% load -ascii box2.dat
-load -ascii box3.dat
-
-% xm=box1(:,1);
-% ym=box1(:,2);
-% xp=box1(:,3);
-% yp=box1(:,4);
-
-% xm=box2(:,1);
-% ym=box2(:,2);
-% xp=box2(:,3);
-% yp=box2(:,4);
-
-xm=box3(:,1);
-ym=box3(:,2);
-xp=box3(:,3);
-yp=box3(:,4);
-
-L = 0.1;
-D = 1;
-
-
-N=25;
-M=60;
+N=40;
+M=200;
 in=linspace(1,N,N);
 K=linspace(0.01,2,M);
 
@@ -1304,16 +1159,16 @@ for k=1:M
     X22_direct=phiD.*n2.*ds;
     X2_direct=[X2_direct,abs(sum(X22_direct))];
    
-    AM2=complex(0,1)*(phi2.*(K(k)*n2-K(k)*complex(0,1)*n1)-n2).*phi0.*ds;
+    AM2=(phi2.*(K(k)*n2-K(k)*complex(0,1)*n1)-n2).*phi0.*ds;
 
     X22_FK = (L*exp(-K(k)*D))*sin(K(k)*L/2.0)/(K(k)*L/2.0);
     X2_FK = [X2_FK, abs(sum(X22_FK))];
     
-    X22_HK1 = -phi0.*(n2+complex(0,1)*phi2*K(k)*-K(k).*phi2.*n2).*ds;
-    X2_HK1 = [X2_HK1, abs(sum(real(X22_HK1)))];
+    X22_HK1 =(phi0.*n2 - phi2.*(K(k)*(n2- complex(0,1)*n1).*phi0)).*ds;
+    X2_HK1 = [X2_HK1, abs(sum((X22_HK1)))];
     
-    X22_HK2 = AM2;
-    X2_HK2 = [X2_HK2, abs(sum(X22_HK2))];
+    X22_HK2 = complex(0,1)*AM2;
+    X2_HK2 = [X2_HK2, abs(sum((X22_HK2)))];
     
     %mass-damping force:
     ff22=phi2.*n2.*ds;
@@ -1325,30 +1180,51 @@ X2_HK1 = X2_HK1(2:end);
 X2_HK2 = X2_HK2(2:end);
 sff22 = sff22(2:end);
 
+% figure()
+% plot(K, X2_direct, 'b -', 'LineWidth', 2)
+% hold on
+% plot(K, X2_FK, 'r -', 'LineWidth', 2)
+% hold on
+% plot(K, X2_HK1, 'k .', 'markersize', [16])
+% hold on
+% plot(K, X2_HK2, 'g -', 'LineWidth', 2)
+% 
+% 
+% xlabel('\omega^2 D / g', 'FontSize', 20) % x-axis label
+% ylabel('|X_2| / \rho g', 'FontSize', 20) % x-axis label
+% legend('X_2^{Direct}', 'X_2^{FK}', 'X_2^{HK1}', 'X_2^{HK2}')
+% set(gca,'FontSize',14)
+
 % plot of body response
 xi2 = abs(X2_direct./(L - K.*L -K.*sff22 ));
+
 b22f=(abs(X2_FK)).^2; % Damping from FK
 xiFK = abs(X2_FK./(L - K.*L + K.*complex(0,1).*b22f));
-a22=real(sff22);
-xia22= abs(X2_FK./(L - K.*L + K.*complex(0,1).*b22f) - a22);
+
+
+a_22=real(sff22);
+b22 = -imag(sff22);
+xia22= abs(X2_FK./(L - K.*(L + a_22) + complex(0,1)*K.*b22f));
 
 figure(1);
 plot(K, xi2, 'k -', 'LineWidth', 2);
 hold on
-plot(K, xiFK, 'r .', 'markersize', [20]);
-plot(K, xia22, 'b -', 'LineWidth', 2);
+plot(K, xiFK, 'b -', 'LineWidth', 2);
+plot(K, xia22, 'r .', 'markersize', [14]);
 title('Response as a function of wavenumber', 'FontSize', 20)
-legend('|\xi_2|/ A', '|\xi_2^{FK}|/ A', '|\xi_2 (a_{22})|/ A')
+legend('|\xi_2|/ A', '|\xi_2^{FK}|/ A', '|\xi_2^{FK}|/ A with a_{22}')
 xlabel('\omega^2 D /g', 'FontSize', 20)
+ylabel('Response |\xi_2|/ A', 'FontSize', 20)
 set(gca,'FontSize',20)
 \end{verbatim}
+
 
 \newpage
 
 \section{References}
 
 \begin{enumerate}
-\item John Grue. 2018. "Topics in marine hydrodamics with numerical methods and MATLAB scripting."
+\item John Grue. 2018. "Topics in marine hydrodynamics with numerical methods and MATLAB scripting."
 
 \item J.N.Newman. "Marine Hydrodynamics"
 \end{enumerate}

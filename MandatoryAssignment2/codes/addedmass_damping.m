@@ -3,29 +3,29 @@ clc;
 % characteristics of geometry
 
 % load -ascii box1.dat
-load -ascii box2.dat
-% load -ascii box3.dat
+% load -ascii box2.dat
+load -ascii box3.dat
 
 % xm=box1(:,1);
 % ym=box1(:,2);
 % xp=box1(:,3);
 % yp=box1(:,4);
 
-xm=box2(:,1);
-ym=box2(:,2);
-xp=box2(:,3);
-yp=box2(:,4);
+% xm=box2(:,1);
+% ym=box2(:,2);
+% xp=box2(:,3);
+% yp=box2(:,4);
 
-% xm=box3(:,1);
-% ym=box3(:,2);
-% xp=box3(:,3);
-% yp=box3(:,4);
+xm=box3(:,1);
+ym=box3(:,2);
+xp=box3(:,3);
+yp=box3(:,4);
 
-L = 1;
+L = 0.1;
 D = 1;
 
 
-N=30;
+N=25;
 M=60;
 in=linspace(1,N,N);
 K=linspace(0.01,2,M);
@@ -47,11 +47,10 @@ xg2=0.5*dx/sqrt(3)+xbar;
 yg1=-0.5*dy/sqrt(3)+ybar;
 yg2=0.5*dy/sqrt(3)+ybar;
 
-X2_direct = 0;
-X2_FK = 0;
-X2_HK1 = 0;
-X2_HK2 = 0;
 sff22 = 0;
+sAM2 = 0;
+sAP2 = 0;
+bb_22_approx = L^2;
 % contributions to integral equation, rhs stores rhs, lhs stores lhs
 for k=1:M
     for i=1:N
@@ -95,67 +94,51 @@ for k=1:M
             ss(i,j)=(arg0+arg1+arg2);
         end
     end
-    phi0=exp(K(k)*(ybar-complex(0,1)*xbar));
     rhs=gg*n2;
     phi2=ss\rhs;
     
-    rhsD=-2*pi*phi0;
-    phiD=ss\rhsD;
-    
     % calculation of added mass a22 and damping b22
-    X22_direct=phiD.*n2.*ds;
-    X2_direct=[X2_direct,abs(sum(X22_direct))];
-   
-    AM2=complex(0,1)*(phi2.*(K(k)*n2-K(k)*complex(0,1)*n1)-n2).*phi0.*ds;
-
-    X22_FK = (L*exp(-K(k)*D))*sin(K(k)*L/2.0)/(K(k)*L/2.0);
-    X2_FK = [X2_FK, abs(sum(X22_FK))];
-    
-    X22_HK1 = -phi0.*(n2+complex(0,1)*phi2*K(k)*-K(k).*phi2.*n2).*ds;
-    X2_HK1 = [X2_HK1, abs(sum(real(X22_HK1)))];
-    
-    X22_HK2 = AM2;
-    X2_HK2 = [X2_HK2, abs(sum(X22_HK2))];
-    
-    %mass-damping force:
     ff22=phi2.*n2.*ds;
-    sff22 = [sff22,sum(ff22)];
+    sff22=[sff22,sum(ff22)];
+    
+    phi0=exp(K(k)*(ybar-complex(0,1)*xbar));
+
+    AM2=complex(0,1)*(phi2.*(K(k)*n2-K(k)*complex(0,1)*n1)-n2).*phi0.*ds;
+    AP2=complex(0,1)*(phi2.*(K(k)*n2+K(k)*complex(0,1)*n1)-n2).*conj(phi0).*ds;
+   
+    sAM2=[sAM2,sum(AM2)];
+   
+    sAP2=[sAP2,sum(AP2)];
+    
+    % approximate solution using Froude-Krylov approximation
+    b_22_approx = (4*exp(-2*K(k)*D)*(sin((K(k)*L)/2))^2 )/(K(k)*K(k));
+    bb_22_approx = [bb_22_approx, b_22_approx];
 end
-X2_direct = X2_direct(2:end);
-X2_FK = X2_FK(2:end);
-X2_HK1 = X2_HK1(2:end);
-X2_HK2 = X2_HK2(2:end);
-sff22 = sff22(2:end);
 
-% figure()
-% plot(K, X2_direct, 'b -', 'LineWidth', 2)
-% hold on
-% plot(K, X2_FK, 'r -', 'LineWidth', 2)
-% hold on
-% plot(K, X2_HK1, 'k -', 'LineWidth', 2)
-% hold on
-% plot(K, X2_HK2, 'g -', 'LineWidth', 2)
-% 
-
-% xlabel('\omega^2 D / g', 'FontSize', 20) % x-axis label
-% ylabel('|X_2| / \rho g', 'FontSize', 20) % x-axis label
-% legend('X_2^{Direct}','X_2^{FK}','X_2^{HK1}','X_2^{HK2}')
-% set(gca,'FontSize',14)
-
-% plot of body response
-xi2 = abs(X2_direct./(L - K.*L -K.*sff22 ));
-b22f=(abs(X2_FK)).^2; % Damping from FK
-xiFK = abs(X2_FK./(L - K.*L + K.*complex(0,1).*b22f));
 a22=real(sff22);
-xia22= abs(X2_FK./(L - K.*L + K.*complex(0,1).*b22f) - a22);
+a22=a22(2:end);
+b22=-imag(sff22);
+b22=b22(2:end);
 
-figure(1);
-plot(K, xi2, 'k -', 'LineWidth', 2);
+% b22_2=0.5*( (abs(sAP2)).^2 + (abs(sAM2)).^2 );
+% b22_2_full = b22_2(2:end);
+% 
+% bb_22_approx = bb_22_approx(2:end); 
+
+figure()
+plot(K, a22, 'b -', 'LineWidth', 2)
+ylim([-0.0 6])
 hold on
-plot(K, xiFK, 'r .', 'markersize', [20]);
-plot(K, xia22, 'b -', 'LineWidth', 2);
-title('Response as a function of wavenumber', 'FontSize', 20)
-legend('|\xi_2|/ A', '|\xi_2^{FK}|/ A', '|\xi_2 (a_{22})|/ A')
-xlabel('\omega^2 D /g', 'FontSize', 20)
-set(gca,'FontSize',20)
+plot(K, b22, 'r .', 'LineWidth', 2)
+% hold on
+% plot(K, b22_2_full, 'k +', 'LineWidth', 1)
+% hold on
+% plot(K, bb_22_approx, 'g -', 'LineWidth', 2)
 
+%title('Added mass and damping', 'FontSize', 16)
+title('dampings coefficient b_{22} vs wavenumber K', 'FontSize', 16)
+xlabel('\omega^2 D / g', 'FontSize', 20) % x-axis label
+%ylabel('\phi_2', 'FontSize', 18) % x-axis label
+legend('a_{22}/ \rho D^2','b_{22}/ \rho \omega D^2')
+%legend('b_{22}/ \rho \omega D^2','b_{22}^E/ \rho \omega D^2', 'b_{22}^{FK}/ \rho \omega D^2')
+set(gca,'FontSize',14)
